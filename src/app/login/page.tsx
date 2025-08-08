@@ -32,6 +32,16 @@ export default function LoginPage() {
                         {/* GitHub login button */}
                         <GitHubSignInButton />
 
+                        {/* Continue without login */}
+                        <div className="pt-2">
+                            <Link
+                                href="/ide"
+                                className="w-full md:w-full bg-gray-800 hover:bg-gray-700 text-white px-3 md:px-4 py-2 md:py-3 rounded-lg flex items-center justify-center gap-2 font-medium transition-all duration-200 shadow-sm hover:shadow-md text-xs md:text-sm max-w-[280px] md:max-w-none mx-auto border border-gray-600"
+                            >
+                                Continue without login
+                            </Link>
+                        </div>
+
                         {/* Quote section */}
                         <div className="space-y-3 md:space-y-4 pt-4 md:pt-6">
                             <blockquote className="text-gray-300 text-base md:text-lg italic font-light leading-relaxed">

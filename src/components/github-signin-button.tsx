@@ -11,12 +11,12 @@ export function GitHubSignInButton() {
 
     useEffect(() => {
         if (status === "authenticated") {
-            router.push("/home");
+            router.push("/ide");
         }
     }, [status, router]);
 
     const handleSignIn = () => {
-        signIn("github", { callbackUrl: "/home" });
+        signIn("github", { callbackUrl: "/ide" });
     };
 
     if (status === "loading") {

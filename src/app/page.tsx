@@ -3,18 +3,9 @@
 import Link from 'next/link';
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 export default function Home() {
   const { status } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/home");
-    }
-  }, [status, router]);
 
   return (
     <div className="w-full h-screen bg-black relative">
@@ -27,6 +18,38 @@ export default function Home() {
         <span className="hidden sm:inline">Login with GitHub</span>
         <span className="sm:hidden">Login</span>
       </Link>
+
+      {/* Main content area with IDE access */}
+      <div className="flex flex-col items-center justify-center h-full space-y-8">
+        <div className="text-center space-y-4">
+          <h1 className="text-white text-4xl md:text-6xl font-bold">
+            Welcome to Codeer
+          </h1>
+          <p className="text-gray-400 text-lg md:text-xl">
+            Your online IDE for coding and collaboration
+          </p>
+        </div>
+
+        {/* Access IDE button */}
+        <div className="space-y-4">
+          <Link
+            href="/ide"
+            className="block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 text-center"
+          >
+            Start Coding
+          </Link>
+
+          {status === "authenticated" ? (
+            <p className="text-gray-500 text-sm text-center">
+              You're logged in - your code will be saved to GitHub
+            </p>
+          ) : (
+            <p className="text-gray-500 text-sm text-center">
+              Login to save your code to GitHub, or continue as guest
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
