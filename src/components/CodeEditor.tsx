@@ -586,15 +586,6 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                                     {/* AI Chat Area */}
                                     <div className="flex-1 flex flex-col p-4 min-h-0">
                                         <div className="flex-1 space-y-3 mb-4 overflow-y-auto max-h-[500px] scrollbar-hide">
-                                            <style jsx>{`
-                                                .scrollbar-hide {
-                                                    -ms-overflow-style: none;
-                                                    scrollbar-width: none;
-                                                }
-                                                .scrollbar-hide::-webkit-scrollbar {
-                                                    display: none;
-                                                }
-                                            `}</style>
                                             {aiMessages.length === 0 && (
                                                 <div className="text-center text-gray-400 text-sm">
                                                     <MessageSquare className="w-8 h-8 mx-auto mb-2 opacity-50" />
@@ -676,7 +667,7 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                     {/* Input/Output Panel */}
                     <PanelResizeHandle className="w-2 bg-[#2d2d30] hover:bg-[#3e3e42] cursor-col-resize border-l border-r border-[#3e3e42]" />
                     <Panel defaultSize={25} minSize={20}>
-                        <div className="h-full bg-[#1e1e1e] flex flex-col">
+                        <div className="h-full bg-[#1e1e1e] flex flex-col min-h-0">
                             {/* Input/Output Header */}
                             <div className="h-12 bg-[#1e1e1e] border-b border-[#2d2d30] flex">
                                 <button
@@ -700,7 +691,16 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                             </div>
 
                             {/* Input/Output Content */}
-                            <div className="flex-1 p-4">
+                            <div className="flex-1 p-4 min-h-0">
+                                <style jsx global>{`
+                                    .scrollbar-hide {
+                                        -ms-overflow-style: none;
+                                        scrollbar-width: none;
+                                    }
+                                    .scrollbar-hide::-webkit-scrollbar {
+                                        display: none;
+                                    }
+                                `}</style>
                                 {activeTab === 'input' ? (
                                     <div className="space-y-3 h-full">
                                         <div className="h-full flex flex-col">
@@ -711,7 +711,7 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                                                 value={programInput}
                                                 onChange={(e) => setProgramInput(e.target.value)}
                                                 placeholder="Enter input for your program..."
-                                                className="flex-1 bg-[#2d2d30] border border-[#3e3e42] text-white placeholder-gray-400 p-3 rounded text-sm font-mono resize-none"
+                                                className="flex-1 bg-[#2d2d30] border border-[#3e3e42] text-white placeholder-gray-400 p-3 rounded text-sm font-mono resize-none scrollbar-hide"
                                             />
                                         </div>
                                     </div>
@@ -721,7 +721,7 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                                             <label className="block text-xs font-medium text-gray-400 mb-2">
                                                 Program Output
                                             </label>
-                                            <div className="flex-1 bg-[#2d2d30] border border-[#3e3e42] text-white p-3 rounded text-sm font-mono overflow-y-auto whitespace-pre-wrap">
+                                            <div className="flex-1 bg-[#2d2d30] border border-[#3e3e42] text-white p-3 rounded text-sm font-mono overflow-y-auto whitespace-pre-wrap scrollbar-hide">
                                                 {output || 'No output yet. Run your code to see results.'}
                                             </div>
                                             {executionStats && (
