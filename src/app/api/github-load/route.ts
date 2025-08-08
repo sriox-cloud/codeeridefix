@@ -59,21 +59,37 @@ export async function POST(req: NextRequest) {
 
         const contents = await contentsResponse.json();
 
-        // Filter for code files only
-        const codeFileExtensions = ['.js', '.jsx', '.ts', '.tsx', '.py', '.java', '.cpp', '.c', '.cs', '.go', '.rs', '.php', '.rb', '.html', '.css', '.json', '.txt', '.md', '.yml', '.yaml', '.xml'];
+        // Filter for code files only (excluding README files from filtering since user wants all files)
+        const codeFileExtensions = ['.js', '.jsx', '.ts', '.tsx', '.py', '.java', '.cpp', '.c', '.cs', '.go', '.rs', '.php', '.rb', '.html', '.css', '.json', '.txt', '.md', '.yml', '.yaml', '.xml', '.sh', '.sql', '.vue', '.svelte'];
 
         console.log('Repository contents:', contents.length, 'items');
+        console.log('Contents:', contents.map((item: any) => ({ name: item.name, type: item.type })));
 
-        // Function to recursively fetch files from directories
-        async function fetchAllFiles(items: any[]): Promise<any[]> {
+        // Function to recursively fetch files from directories with better error handling
+        async function fetchAllFiles(items: any[], currentPath = ''): Promise<any[]> {
             const allFiles = [];
 
             for (const item of items) {
-                if (item.type === 'file' && codeFileExtensions.some(ext => item.name.toLowerCase().endsWith(ext))) {
-                    // It's a code file, add it to our list
-                    allFiles.push(item);
-                } else if (item.type === 'dir') {
-                    // It's a directory, fetch its contents recursively
+                const fullPath = currentPath ? `${currentPath}/${item.name}` : item.name;
+                console.log(`Processing: ${fullPath} (type: ${item.type})`);
+
+                if (item.type === 'file') {
+                    // Include more file types and be more permissive
+                    const isCodeFile = codeFileExtensions.some(ext => item.name.toLowerCase().endsWith(ext)) ||
+                        item.name.toLowerCase().includes('readme') ||
+                        item.name.toLowerCase().includes('license') ||
+                        !item.name.includes('.') || // Files without extension
+                        item.size < 1000000; // Files under 1MB
+
+                    if (isCodeFile) {
+                        console.log(`Adding file: ${fullPath}`);
+                        allFiles.push({ ...item, fullPath });
+                    } else {
+                        console.log(`Skipping file: ${fullPath} (not a code file)`);
+                    }
+                } else if (item.type === 'dir' && !item.name.startsWith('.') && item.name !== 'node_modules') {
+                    // Skip hidden directories and node_modules
+                    console.log(`Exploring directory: ${fullPath}`);
                     try {
                         const dirResponse = await fetch(item.url, {
                             headers: {
@@ -84,11 +100,14 @@ export async function POST(req: NextRequest) {
 
                         if (dirResponse.ok) {
                             const dirContents = await dirResponse.json();
-                            const dirFiles = await fetchAllFiles(dirContents);
+                            console.log(`Directory ${fullPath} has ${dirContents.length} items`);
+                            const dirFiles = await fetchAllFiles(dirContents, fullPath);
                             allFiles.push(...dirFiles);
+                        } else {
+                            console.error(`Failed to fetch directory ${fullPath}:`, dirResponse.status);
                         }
                     } catch (error) {
-                        console.error(`Error fetching directory ${item.name}:`, error);
+                        console.error(`Error fetching directory ${fullPath}:`, error);
                     }
                 }
             }
@@ -103,6 +122,7 @@ export async function POST(req: NextRequest) {
         const filesWithContent = await Promise.all(
             codeFiles.map(async (file: any) => {
                 try {
+                    console.log(`Fetching content for: ${file.fullPath || file.name}`);
                     const fileResponse = await fetch(file.url, {
                         headers: {
                             'Authorization': `token ${accessToken}`,
@@ -115,10 +135,12 @@ export async function POST(req: NextRequest) {
                         // Decode base64 content
                         const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
                         return {
-                            name: file.name,
+                            name: file.fullPath || file.name, // Use full path as name
                             content: content,
                             size: file.size
                         };
+                    } else {
+                        console.error(`Failed to fetch file ${file.name}:`, fileResponse.status);
                     }
                     return null;
                 } catch (error) {
@@ -132,7 +154,7 @@ export async function POST(req: NextRequest) {
         const validFiles = filesWithContent.filter(file => file !== null);
 
         console.log('Successfully loaded files:', validFiles.length);
-        console.log('File names:', validFiles.map(f => f.name));
+        console.log('File names:', validFiles.map((f: any) => f.name));
 
         return NextResponse.json({
             success: true,
@@ -142,7 +164,8 @@ export async function POST(req: NextRequest) {
             debug: {
                 totalContents: contents.length,
                 foundCodeFiles: codeFiles.length,
-                successfullyLoaded: validFiles.length
+                successfullyLoaded: validFiles.length,
+                fileNames: validFiles.map((f: any) => f.name)
             }
         });
 

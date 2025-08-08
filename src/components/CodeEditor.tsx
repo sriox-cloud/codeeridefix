@@ -69,7 +69,7 @@ export default function CodeEditor({ session }: CodeEditorProps) {
     const [apiKey, setApiKey] = useState('');
     const [selectedModel, setSelectedModel] = useState('gpt-4o-mini');
     const [availableModels, setAvailableModels] = useState<any[]>([]);
-    
+
     // Ref for auto-scrolling chat
     const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -320,6 +320,7 @@ export default function CodeEditor({ session }: CodeEditorProps) {
 
             if (response.ok) {
                 console.log('GitHub load result:', result);
+                console.log('Debug info:', result.debug);
 
                 // Clear existing files and load new ones
                 const loadedFiles: FileTab[] = result.files.map((file: any) => ({
@@ -329,13 +330,14 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                 }));
 
                 console.log('Loaded files:', loadedFiles);
+                console.log('File names:', loadedFiles.map(f => f.name));
 
                 if (loadedFiles.length > 0) {
                     setOpenFiles(loadedFiles);
                     setActiveFileIndex(0);
-                    alert(`Successfully loaded ${loadedFiles.length} files from repository: ${result.repository}`);
+                    alert(`Successfully loaded ${loadedFiles.length} files from repository: ${result.repository}\n\nFiles: ${loadedFiles.map(f => f.name).join(', ')}`);
                 } else {
-                    alert('No code files found in the repository');
+                    alert(`No code files found in the repository. Debug info: ${JSON.stringify(result.debug, null, 2)}`);
                 }
             } else {
                 console.error('GitHub load error:', result);
@@ -583,7 +585,16 @@ export default function CodeEditor({ session }: CodeEditorProps) {
 
                                     {/* AI Chat Area */}
                                     <div className="flex-1 flex flex-col p-4 min-h-0">
-                                        <div className="flex-1 space-y-3 mb-4 overflow-y-auto max-h-[500px]">
+                                        <div className="flex-1 space-y-3 mb-4 overflow-y-auto max-h-[500px] scrollbar-hide">
+                                            <style jsx>{`
+                                                .scrollbar-hide {
+                                                    -ms-overflow-style: none;
+                                                    scrollbar-width: none;
+                                                }
+                                                .scrollbar-hide::-webkit-scrollbar {
+                                                    display: none;
+                                                }
+                                            `}</style>
                                             {aiMessages.length === 0 && (
                                                 <div className="text-center text-gray-400 text-sm">
                                                     <MessageSquare className="w-8 h-8 mx-auto mb-2 opacity-50" />
