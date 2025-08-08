@@ -399,7 +399,7 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                 {/* Left side - Branding, Language selector, and Run button */}
                 <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-3">
-                        <span className="text-white font-bold text-lg">Codeer IDE</span>
+                        <span className="text-white font-bold text-lg">Codeer</span>
                     </div>
                     <div className="w-48">
                         <LanguageSelector language={language} onLanguageChange={setLanguage} />
@@ -546,12 +546,28 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                             <Panel defaultSize={25} minSize={20}>
                                 <div className="h-full bg-[#1e1e1e] flex flex-col">
                                     {/* AI Header */}
-                                    <div className="h-16 bg-[#1e1e1e] border-b border-[#2d2d30] flex flex-col px-4 py-2">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <div className="flex items-center space-x-2">
-                                                <Bot className="w-5 h-5 text-[#007acc]" />
-                                                <span className="text-white text-sm font-medium">AI Assistant</span>
-                                            </div>
+                                    <div className="h-14 bg-[#1e1e1e] border-b border-[#2d2d30] flex items-center justify-between px-4 relative z-10">
+                                        <div className="flex items-center space-x-2">
+                                            <Bot className="w-5 h-5 text-[#007acc]" />
+                                            <span className="text-white text-sm font-medium">AI Assistant</span>
+                                        </div>
+                                        <div className="flex items-center space-x-2">
+                                            <select
+                                                value={selectedModel}
+                                                onChange={(e) => setSelectedModel(e.target.value)}
+                                                className="bg-[#2d2d30] border border-[#3e3e42] text-white text-xs px-2 py-1 rounded w-24 relative z-20"
+                                                title="Select AI Model"
+                                            >
+                                                {availableModels.length > 0 ? (
+                                                    availableModels.map((model) => (
+                                                        <option key={model.id} value={model.id} title={model.name}>
+                                                            {model.name.split('/').pop()?.split(':')[0] || model.id} {model.pricing?.prompt === '0' ? '(F)' : ''}
+                                                        </option>
+                                                    ))
+                                                ) : (
+                                                    <option value="gpt-4o-mini">gpt-4o-mini</option>
+                                                )}
+                                            </select>
                                             <Button
                                                 variant="ghost"
                                                 size="sm"
@@ -563,23 +579,6 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                                             >
                                                 <Settings className="w-3 h-3" />
                                             </Button>
-                                        </div>
-                                        <div className="flex items-center space-x-2">
-                                            <select
-                                                value={selectedModel}
-                                                onChange={(e) => setSelectedModel(e.target.value)}
-                                                className="flex-1 bg-[#2d2d30] border border-[#3e3e42] text-white text-xs px-2 py-1 rounded"
-                                            >
-                                                {availableModels.length > 0 ? (
-                                                    availableModels.map((model) => (
-                                                        <option key={model.id} value={model.id}>
-                                                            {model.name} {model.pricing?.prompt === '0' ? '(Free)' : ''}
-                                                        </option>
-                                                    ))
-                                                ) : (
-                                                    <option value="gpt-4o-mini">gpt-4o-mini (Default)</option>
-                                                )}
-                                            </select>
                                         </div>
                                     </div>
 

@@ -45,7 +45,7 @@ export default function LoginPage() {
                         {/* Quote section */}
                         <div className="space-y-3 md:space-y-4 pt-4 md:pt-6">
                             <blockquote className="text-gray-300 text-base md:text-lg italic font-light leading-relaxed">
-                                "Why only GitHub? Because you are a codeer"
+                                "Login with GitHub to save your files. You can also code without login."
                             </blockquote>
                         </div>
 
