@@ -146,13 +146,13 @@ export default function Home() {
               <div className="absolute -bottom-2 right-0 w-12 h-px bg-gradient-to-l from-gray-400 to-transparent"></div>
             </h1>
 
-            <p className="text-gray-400 text-lg mb-8 leading-relaxed max-w-2xl mx-auto relative">
+            <div className="text-gray-400 text-lg mb-8 leading-relaxed max-w-2xl mx-auto relative">
               Fast, reliable online compiler supporting 10+ programming languages.
               Execute your code instantly with zero setup required.
               {/* Subtle decorative dots */}
               <div className="absolute -left-2 top-2 w-1 h-1 bg-gray-600 rounded-full"></div>
               <div className="absolute -right-2 bottom-2 w-1 h-1 bg-gray-500 rounded-full"></div>
-            </p>
+            </div>
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
