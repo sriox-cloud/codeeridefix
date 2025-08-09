@@ -11,6 +11,7 @@ export default function Home() {
   const { status } = useSession();
   const [mounted, setMounted] = useState(false);
   const [currentLang, setCurrentLang] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const languages = ['Python', 'JavaScript', 'Java', 'C++', 'Go', 'Rust'];
   const codes = [
@@ -35,7 +36,7 @@ export default function Home() {
     <div className="min-h-screen bg-black text-white">
       {/* Navigation */}
       <nav className="border-b border-gray-800 bg-black/50 backdrop-blur">
-        <div className="max-w-7xl mx-auto px-4 h-12 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 relative">
               <Image
@@ -50,14 +51,114 @@ export default function Home() {
             </div>
             <span className="text-lg font-bold uppercase" style={{ fontFamily: 'var(--font-gugi)' }}>CODEER</span>
           </div>
-          <div className="flex items-center gap-4">
-            <Link href="#features" className="text-gray-400 hover:text-white text-sm">Features</Link>
-            <Link href="#languages" className="text-gray-400 hover:text-white text-sm">Languages</Link>
-            <Link href="/login" className="bg-white text-black px-3 py-1.5 rounded text-sm font-medium hover:bg-gray-200">
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-6">
+            <Link href="#features" className="text-gray-400 hover:text-white text-sm transition-colors">Features</Link>
+            <Link href="#languages" className="text-gray-400 hover:text-white text-sm transition-colors">Languages</Link>
+            <Link href="/explore" className="text-gray-400 hover:text-white text-sm transition-colors">Explore</Link>
+            <div className="relative group">
+              <button className="text-gray-400 hover:text-white text-sm transition-colors flex items-center gap-1 group">
+                More
+                <svg className="w-3 h-3 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div className="absolute top-full right-0 mt-2 w-48 bg-gray-900/95 backdrop-blur border border-gray-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="py-2">
+                  <Link href="/privacy" className="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-800 transition-colors rounded-sm mx-1">
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      </svg>
+                      Privacy Policy
+                    </div>
+                  </Link>
+                  <Link href="/terms" className="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-800 transition-colors rounded-sm mx-1">
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Terms of Service
+                    </div>
+                  </Link>
+                  <div className="border-t border-gray-700 my-1"></div>
+                  <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-800 transition-colors rounded-sm mx-1">
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
+                      </svg>
+                      Dashboard
+                    </div>
+                  </Link>
+                  <Link href="https://github.com/siddu-k/codeeride" target="_blank" rel="noopener noreferrer" className="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-800 transition-colors rounded-sm mx-1">
+                    <div className="flex items-center gap-2">
+                      <GitHubLogoIcon className="w-4 h-4" />
+                      GitHub
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <Link href="/login" className="bg-white text-black px-4 py-2 rounded text-sm font-medium hover:bg-gray-200 transition-colors">
               Get Started
             </Link>
           </div>
+
+          {/* Mobile Navigation Button */}
+          <div className="md:hidden">
+            <button className="text-gray-400 hover:text-white p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-gray-800 bg-black/95 backdrop-blur">
+            <div className="px-4 py-3 space-y-1">
+              <Link href="#features" className="flex items-center gap-3 py-3 text-gray-400 hover:text-white text-sm transition-colors border-b border-gray-800 last:border-b-0" onClick={() => setMobileMenuOpen(false)}>
+                <LightningBoltIcon className="w-4 h-4" />
+                Features
+              </Link>
+              <Link href="#languages" className="flex items-center gap-3 py-3 text-gray-400 hover:text-white text-sm transition-colors border-b border-gray-800 last:border-b-0" onClick={() => setMobileMenuOpen(false)}>
+                <CodeIcon className="w-4 h-4" />
+                Languages
+              </Link>
+              <Link href="/explore" className="flex items-center gap-3 py-3 text-gray-400 hover:text-white text-sm transition-colors border-b border-gray-800 last:border-b-0" onClick={() => setMobileMenuOpen(false)}>
+                <RocketIcon className="w-4 h-4" />
+                Explore
+              </Link>
+              <Link href="/dashboard" className="flex items-center gap-3 py-3 text-gray-400 hover:text-white text-sm transition-colors border-b border-gray-800 last:border-b-0" onClick={() => setMobileMenuOpen(false)}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
+                </svg>
+                Dashboard
+              </Link>
+              <Link href="/privacy" className="flex items-center gap-3 py-3 text-gray-400 hover:text-white text-sm transition-colors border-b border-gray-800 last:border-b-0" onClick={() => setMobileMenuOpen(false)}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="flex items-center gap-3 py-3 text-gray-400 hover:text-white text-sm transition-colors border-b border-gray-800 last:border-b-0" onClick={() => setMobileMenuOpen(false)}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Terms of Service
+              </Link>
+              <Link href="https://github.com/siddu-k/codeeride" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 py-3 text-gray-400 hover:text-white text-sm transition-colors border-b border-gray-800 last:border-b-0" onClick={() => setMobileMenuOpen(false)}>
+                <GitHubLogoIcon className="w-4 h-4" />
+                GitHub
+              </Link>
+              <Link href="/login" className="block mt-4 bg-white text-black px-4 py-3 rounded text-sm font-medium hover:bg-gray-200 transition-colors text-center" onClick={() => setMobileMenuOpen(false)}>
+                Get Started
+              </Link>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
@@ -127,7 +228,7 @@ export default function Home() {
 
             <div className="inline-flex items-center gap-2 bg-gray-900 border border-gray-800 rounded-full px-4 py-1.5 text-sm relative">
               <div className="w-2 h-2 bg-white rounded-full"></div>
-              Free Online IDE & Compiler
+              Free Online Compiler & Editor
               {/* Decorative corner accents */}
               <div className="absolute -top-1 -left-1 w-2 h-2 border-l border-t border-gray-600 rounded-tl"></div>
               <div className="absolute -bottom-1 -right-1 w-2 h-2 border-r border-b border-gray-600 rounded-br"></div>
@@ -163,7 +264,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
               <Link href="/ide" className="bg-white text-black px-8 py-3 rounded-lg font-medium hover:bg-gray-200 inline-flex items-center justify-center gap-2">
                 <PlayIcon className="w-5 h-5" />
-                Start Coding
+                Start Compiling
               </Link>
               <Link href="/login" className="border border-gray-700 px-8 py-3 rounded-lg font-medium hover:bg-gray-900 inline-flex items-center justify-center gap-2">
                 <GitHubLogoIcon className="w-5 h-5" />
@@ -305,7 +406,7 @@ export default function Home() {
                   <p className="mb-4">
                     Codeer is the best free online compiler and code editor that supports over 50 programming languages.
                     Whether you're learning to code, practicing algorithms, or working on programming projects, our
-                    online IDE provides everything you need without any downloads or installations.
+                    online compiler provides everything you need without any downloads or installations.
                   </p>
                   <p className="mb-4">
                     Our free online compiler supports popular languages like Python, JavaScript, Java, C++, C, Go,
@@ -337,7 +438,7 @@ export default function Home() {
                       <li>• Online Python compiler</li>
                       <li>• Free JavaScript editor</li>
                       <li>• Java code runner online</li>
-                      <li>• C++ online IDE</li>
+                      <li>• C++ online compiler</li>
                     </ul>
                   </div>
                   <div>
@@ -351,7 +452,7 @@ export default function Home() {
                   <div>
                     <ul className="space-y-2 text-gray-400">
                       <li>• Code compiler online free</li>
-                      <li>• Programming IDE browser</li>
+                      <li>• Programming compiler browser</li>
                       <li>• Online development environment</li>
                       <li>• Code execution platform</li>
                     </ul>
@@ -422,16 +523,20 @@ export default function Home() {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><Link href="#" className="hover:text-white">Python Compiler Online</Link></li>
                 <li><Link href="#" className="hover:text-white">Java Code Editor</Link></li>
-                <li><Link href="#" className="hover:text-white">C++ Online IDE</Link></li>
+                <li><Link href="#" className="hover:text-white">C++ Online Compiler</Link></li>
                 <li><Link href="#" className="hover:text-white">JavaScript Runner</Link></li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 flex justify-between items-center text-sm text-gray-400">
+          <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-400 gap-4">
             <div>© 2025 CODEER. All rights reserved. Free online compiler and code editor for all programming languages.</div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-white rounded-full"></div>
-              <span>All systems operational</span>
+            <div className="flex items-center gap-4">
+              <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-white">Terms of Service</Link>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-white rounded-full"></div>
+                <span>All systems operational</span>
+              </div>
             </div>
           </div>
         </div>

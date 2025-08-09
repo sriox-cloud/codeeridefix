@@ -566,19 +566,43 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                                             <select
                                                 value={selectedModel}
                                                 onChange={(e) => setSelectedModel(e.target.value)}
-                                                className="bg-[#2d2d30] border border-[#3e3e42] text-white text-xs px-2 py-1 rounded w-24 relative z-20"
+                                                className="bg-[#2d2d30] border border-[#3e3e42] text-white text-xs px-2 py-1 rounded w-60 relative z-20 hover:bg-[#383838] transition-colors"
                                                 title="Select AI Model"
                                             >
                                                 {availableModels.length > 0 ? (
-                                                    availableModels.map((model) => (
-                                                        <option key={model.id} value={model.id} title={model.name}>
-                                                            {model.name.split('/').pop()?.split(':')[0] || model.id} {model.pricing?.prompt === '0' ? '(F)' : ''}
-                                                        </option>
-                                                    ))
+                                                    // Remove duplicates based on model ID and show full names
+                                                    Array.from(new Map(availableModels.map(model => [model.id, model])).values())
+                                                        .map((model) => {
+                                                            const isFree = model.pricing?.prompt === '0' || model.pricing?.prompt === 0;
+                                                            const fullName = model.name || model.id;
+
+                                                            // Show full model name with free indicator
+                                                            const displayName = isFree ? `🟢 ${fullName}` : fullName;
+
+                                                            return (
+                                                                <option
+                                                                    key={model.id}
+                                                                    value={model.id}
+                                                                    title={`${model.name}${isFree ? ' (Free)' : ''}`}
+                                                                    className="bg-[#2d2d30] text-white"
+                                                                >
+                                                                    {displayName}
+                                                                </option>
+                                                            );
+                                                        })
                                                 ) : (
-                                                    <option value="gpt-4o-mini">gpt-4o-mini</option>
+                                                    <option value="gpt-4o-mini">GPT-4o Mini</option>
                                                 )}
                                             </select>
+                                            <div
+                                                className="text-gray-400 hover:text-gray-300 cursor-help text-xs"
+                                                title={availableModels.length > 0 ?
+                                                    `Current: ${availableModels.find(m => m.id === selectedModel)?.name || selectedModel}\n🟢 = Free model` :
+                                                    'AI models loading...'
+                                                }
+                                            >
+                                                ℹ️
+                                            </div>
                                             <Button
                                                 variant="ghost"
                                                 size="sm"

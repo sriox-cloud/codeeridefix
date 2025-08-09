@@ -279,7 +279,7 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                 {/* Left side - Branding, File menu and Language selector */}
                 <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-3">
-                        <span className="text-white font-bold text-lg uppercase" style={{ fontFamily: 'var(--font-gugi)' }}>CODEER IDE</span>
+                        <span className="text-white font-bold text-lg uppercase" style={{ fontFamily: 'var(--font-gugi)' }}>CODEER</span>
                     </div>
                     <div className="relative">
                         <Button variant="ghost" size="sm" className="text-white hover:bg-[#3e3e42] h-8 px-3">

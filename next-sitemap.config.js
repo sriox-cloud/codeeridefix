@@ -25,6 +25,8 @@ module.exports = {
             '/login': 0.8,
             '/dashboard': 0.8,
             '/explore': 0.7,
+            '/privacy': 0.8,
+            '/terms': 0.8,
         };
 
         return {

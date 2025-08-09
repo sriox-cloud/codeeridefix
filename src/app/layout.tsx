@@ -23,18 +23,18 @@ const gugi = Gugi({
 });
 
 export const metadata: Metadata = {
-  title: "Codeer - Free Online Compiler & Code Editor | IDE for Programming",
-  description: "Free online compiler and code editor for Python, JavaScript, Java, C++, C, Go, Rust and 50+ programming languages. Write, run, test and debug code instantly in your browser. Best free IDE for coding practice, algorithms, and programming projects.",
+  title: "Codeer - Free Online Compiler & Code Editor | Programming Tools",
+  description: "Free online compiler and code editor for Python, JavaScript, Java, C++, C, Go, Rust and 50+ programming languages. Write, run, test and debug code instantly in your browser. Best free compiler for coding practice, algorithms, and programming projects.",
   keywords: [
-    "free online compiler", "online code editor", "online IDE", "free compiler",
+    "free online compiler", "online code editor", "online compiler", "free compiler",
     "code online", "programming online", "codeer", "coder", "coding platform",
     "run code online", "execute code", "test code", "debug code", "code runner",
     "python compiler", "javascript editor", "java compiler", "c++ compiler",
     "coding practice", "programming practice", "algorithm practice", "leetcode alternative",
     "programming challenges", "code challenges", "coding interview prep",
-    "web IDE", "browser IDE", "instant code execution", "code playground",
+    "web compiler", "browser compiler", "instant code execution", "code playground",
     "programming tutorial", "learn programming", "code examples", "programming help",
-    "free programming tools", "developer tools", "coding tools", "programming IDE",
+    "free programming tools", "developer tools", "coding tools", "programming compiler",
     "online development environment", "code collaboration", "pair programming"
   ],
   authors: [{ name: "Codeer Team" }],
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   publisher: "Codeer",
   robots: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
   openGraph: {
-    title: "Codeer - Free Online Compiler & Code Editor | Programming IDE",
+    title: "Codeer - Free Online Compiler & Code Editor | Programming Tools",
     description: "Free online compiler supporting 50+ programming languages. Write, run, and debug code instantly in your browser. Perfect for coding practice, algorithms, and programming projects.",
     url: "https://codeer.org",
     siteName: "Codeer",
@@ -100,6 +100,7 @@ export default function RootLayout({
         <meta name="author" content="Codeer Team" />
         <meta name="copyright" content="Codeer" />
         <meta name="application-name" content="Codeer" />
+        <meta name="google-adsense-account" content="ca-pub-3378799604576275" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Codeer" />
@@ -147,7 +148,7 @@ export default function RootLayout({
               "url": "https://codeer.org",
               "description": "Free online compiler and code editor supporting 50+ programming languages including Python, JavaScript, Java, C++, C, Go, Rust. Write, run, test and debug code instantly in your browser.",
               "applicationCategory": "DeveloperApplication",
-              "applicationSubCategory": "IDE",
+              "applicationSubCategory": "Compiler",
               "operatingSystem": "Web Browser",
               "offers": {
                 "@type": "Offer",
@@ -187,7 +188,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
               "name": "Codeer - Free Online Compiler",
-              "description": "Free online compiler and IDE for programming. Supports Python, JavaScript, Java, C++, and 50+ languages. Perfect for coding practice, algorithm solving, and programming education.",
+              "description": "Free online compiler and code editor for programming. Supports Python, JavaScript, Java, C++, and 50+ languages. Perfect for coding practice, algorithm solving, and programming education.",
               "url": "https://codeer.org",
               "applicationCategory": "DeveloperApplication",
               "operatingSystem": "Any",
@@ -204,6 +205,13 @@ export default function RootLayout({
               }
             })
           }}
+        />
+
+        {/* Google AdSense */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3378799604576275"
+          crossOrigin="anonymous"
         />
       </head>
       <body

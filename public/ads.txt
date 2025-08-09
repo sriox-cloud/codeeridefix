@@ -1,0 +1,13 @@
+# ads.txt for Codeer - Free Online Compiler
+# This file is used to help verify authorized digital sellers
+# For Google AdSense integration
+
+# Format: domain, account-id, relationship, certification-authority-id
+google.com, pub-3378799604576275, DIRECT, f08c47fec0942fa0
+
+# Note: Uncomment and update the line above with your actual AdSense Publisher ID
+# after getting approved for Google AdSense
+
+# Additional networks can be added here as needed
+# Example for other ad networks:
+# adnxs.com, 12345, RESELLER, f08c47fec0942fa0
