@@ -228,7 +228,7 @@ export default function Home() {
 
             <div className="inline-flex items-center gap-2 bg-gray-900 border border-gray-800 rounded-full px-4 py-1.5 text-sm relative">
               <div className="w-2 h-2 bg-white rounded-full"></div>
-              Free Online Compiler & Editor
+              Free Online Code editor & Compiler
               {/* Decorative corner accents */}
               <div className="absolute -top-1 -left-1 w-2 h-2 border-l border-t border-gray-600 rounded-tl"></div>
               <div className="absolute -bottom-1 -right-1 w-2 h-2 border-r border-b border-gray-600 rounded-br"></div>
