@@ -21,7 +21,7 @@ interface EditorProps {
 export function Editor({ value, onChange, language }: EditorProps) {
     const getMonacoLanguage = (lang: string): string => {
         console.log('Editor received language:', lang); // Debug log
-        
+
         // First check if it's a numeric ID (Judge0 API format)
         const numericId = parseInt(lang, 10);
         if (!isNaN(numericId)) {
