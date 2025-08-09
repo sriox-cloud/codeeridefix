@@ -49,7 +49,7 @@ export default function CodeEditor({ session }: CodeEditorProps) {
     const [activeFileIndex, setActiveFileIndex] = useState(0);
 
     // Code Editor State
-    const [language, setLanguage] = useState('python');
+    const [language, setLanguage] = useState('71'); // Python 3.8.1 as default
     const [output, setOutput] = useState('');
     const [programInput, setProgramInput] = useState('');
     const [isRunning, setIsRunning] = useState(false);
@@ -142,21 +142,9 @@ export default function CodeEditor({ session }: CodeEditorProps) {
 
     // Language mapping for Judge0
     const getLanguageId = (lang: string): number => {
-        const languageMap: { [key: string]: number } = {
-            javascript: 63,
-            python: 71,
-            java: 62,
-            cpp: 54,
-            c: 50,
-            csharp: 51,
-            go: 60,
-            rust: 73,
-            php: 68,
-            ruby: 72,
-            html: 63,
-            css: 63,
-        };
-        return languageMap[lang] || 71;
+        // Since language is now the actual Judge0 API ID as a string, just parse it
+        const id = parseInt(lang, 10);
+        return isNaN(id) ? 71 : id; // Default to Python 3.8.1 if invalid
     };
 
     // File operations
@@ -205,20 +193,43 @@ export default function CodeEditor({ session }: CodeEditorProps) {
     const getLanguageFromFileName = (fileName: string): string => {
         const extension = fileName.split('.').pop()?.toLowerCase();
         const extensionMap: { [key: string]: string } = {
-            js: 'javascript',
-            py: 'python',
-            java: 'java',
-            cpp: 'cpp',
-            c: 'c',
-            cs: 'csharp',
-            go: 'go',
-            rs: 'rust',
-            php: 'php',
-            rb: 'ruby',
-            html: 'html',
-            css: 'css',
+            js: '63',     // JavaScript (Node.js 12.14.0)
+            py: '71',     // Python (3.8.1)
+            java: '62',   // Java (OpenJDK 13.0.1)
+            cpp: '54',    // C++ (GCC 9.2.0)
+            c: '50',      // C (GCC 9.2.0)
+            cs: '51',     // C# (Mono 6.6.0.161)
+            go: '60',     // Go (1.13.5)
+            rs: '73',     // Rust (1.40.0)
+            php: '68',    // PHP (7.4.1)
+            rb: '72',     // Ruby (2.7.0)
+            ts: '74',     // TypeScript (3.7.4)
+            sh: '46',     // Bash (5.0.0)
+            sql: '82',    // SQL (SQLite 3.27.2)
+            r: '80',      // R (4.0.0)
+            swift: '83',  // Swift (5.2.3)
+            kt: '78',     // Kotlin (1.3.70)
+            scala: '81',  // Scala (2.13.2)
+            hs: '61',     // Haskell (GHC 8.8.1)
+            fs: '87',     // F# (.NET Core SDK 3.1.202)
+            vb: '84',     // Visual Basic.Net
+            pl: '85',     // Perl (5.28.1)
+            lua: '64',    // Lua (5.3.5)
+            pas: '67',    // Pascal (FPC 3.0.4)
+            f90: '59',    // Fortran (GFortran 9.2.0)
+            asm: '45',    // Assembly (NASM 2.14.02)
+            clj: '86',    // Clojure (1.10.1)
+            lisp: '55',   // Common Lisp (SBCL 2.0.0)
+            ml: '65',     // OCaml (4.09.0)
+            d: '56',      // D (DMD 2.089.1)
+            ex: '57',     // Elixir (1.9.4)
+            erl: '58',    // Erlang (OTP 22.2)
+            m: '66',      // Octave (5.1.0) or Objective-C
+            groovy: '88', // Groovy (3.0.3)
+            cob: '77',    // COBOL (GnuCOBOL 2.2)
+            txt: '43',    // Plain Text
         };
-        return extensionMap[extension || ''] || 'python';
+        return extensionMap[extension || ''] || '71'; // Default to Python 3.8.1
     };
 
     const downloadFile = () => {
@@ -399,7 +410,7 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                 {/* Left side - Branding, Language selector, and Run button */}
                 <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-3">
-                        <span className="text-white font-bold text-lg">Codeer</span>
+                        <span className="text-white font-bold text-lg uppercase" style={{ fontFamily: 'var(--font-gugi)' }}>CODEER</span>
                     </div>
                     <div className="w-48">
                         <LanguageSelector language={language} onLanguageChange={setLanguage} />
@@ -501,7 +512,7 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                 <div className="flex items-center space-x-2">
                     <input
                         type="file"
-                        accept=".js,.py,.java,.cpp,.c,.cs,.go,.rs,.php,.rb,.html,.css,.json,.txt"
+                        accept=".js,.py,.java,.cpp,.c,.cs,.go,.rs,.php,.rb,.ts,.sh,.sql,.r,.swift,.kt,.scala,.hs,.fs,.vb,.pl,.lua,.pas,.f90,.asm,.clj,.lisp,.ml,.d,.ex,.erl,.m,.groovy,.cob,.txt,.html,.css,.json"
                         onChange={handleFileUpload}
                         className="hidden"
                         id="file-upload"

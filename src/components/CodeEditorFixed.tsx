@@ -279,7 +279,7 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                 {/* Left side - Branding, File menu and Language selector */}
                 <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-3">
-                        <span className="text-white font-bold text-lg">Codeer IDE</span>
+                        <span className="text-white font-bold text-lg uppercase" style={{ fontFamily: 'var(--font-gugi)' }}>CODEER IDE</span>
                     </div>
                     <div className="relative">
                         <Button variant="ghost" size="sm" className="text-white hover:bg-[#3e3e42] h-8 px-3">
@@ -306,8 +306,8 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                         variant="outline"
                         size="sm"
                         className={`h-7 px-3 text-xs border-[#3e3e42] ${isAiEnabled
-                                ? 'bg-[#007acc] text-white border-[#007acc]'
-                                : 'bg-[#1e1e1e] text-gray-400 hover:bg-[#2d2d30]'
+                            ? 'bg-[#007acc] text-white border-[#007acc]'
+                            : 'bg-[#1e1e1e] text-gray-400 hover:bg-[#2d2d30]'
                             }`}
                     >
                         <Bot className="w-3 h-3 mr-1" />
@@ -330,8 +330,8 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                             <div
                                 key={index}
                                 className={`flex items-center space-x-1 px-3 py-1 rounded-t text-sm cursor-pointer ${index === activeFileIndex
-                                        ? 'bg-[#2d2d30] text-white border-t border-l border-r border-[#3e3e42]'
-                                        : 'text-gray-400 hover:text-white hover:bg-[#2d2d30]'
+                                    ? 'bg-[#2d2d30] text-white border-t border-l border-r border-[#3e3e42]'
+                                    : 'text-gray-400 hover:text-white hover:bg-[#2d2d30]'
                                     }`}
                                 onClick={() => setActiveFileIndex(index)}
                             >
@@ -439,8 +439,8 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                                                 <div
                                                     key={index}
                                                     className={`p-3 rounded-lg text-sm ${message.role === 'user'
-                                                            ? 'bg-[#007acc] text-white ml-8'
-                                                            : 'bg-[#2d2d30] text-gray-300 mr-8'
+                                                        ? 'bg-[#007acc] text-white ml-8'
+                                                        : 'bg-[#2d2d30] text-gray-300 mr-8'
                                                         }`}
                                                 >
                                                     <div className="whitespace-pre-wrap">{message.content}</div>
@@ -498,8 +498,8 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                                 <button
                                     onClick={() => setActiveTab('input')}
                                     className={`flex-1 px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'input'
-                                            ? 'text-white border-[#007acc] bg-[#1e1e1e]'
-                                            : 'text-gray-400 border-transparent hover:text-white hover:bg-[#2d2d30]'
+                                        ? 'text-white border-[#007acc] bg-[#1e1e1e]'
+                                        : 'text-gray-400 border-transparent hover:text-white hover:bg-[#2d2d30]'
                                         }`}
                                 >
                                     Input
@@ -507,8 +507,8 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                                 <button
                                     onClick={() => setActiveTab('output')}
                                     className={`flex-1 px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'output'
-                                            ? 'text-white border-[#007acc] bg-[#1e1e1e]'
-                                            : 'text-gray-400 border-transparent hover:text-white hover:bg-[#2d2d30]'
+                                        ? 'text-white border-[#007acc] bg-[#1e1e1e]'
+                                        : 'text-gray-400 border-transparent hover:text-white hover:bg-[#2d2d30]'
                                         }`}
                                 >
                                     Output

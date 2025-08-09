@@ -22,7 +22,7 @@ export default function LoginPage() {
                         {/* Welcome text */}
                         <div className="space-y-3 md:space-y-4">
                             <h2 className="text-white text-2xl md:text-3xl font-semibold">
-                                Welcome to Codeer
+                                Welcome to CODEER
                             </h2>
                             <p className="text-gray-500 text-sm">
                                 Sign in with your GitHub account to get started
@@ -104,7 +104,7 @@ export default function LoginPage() {
                                     className="text-white text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-wide uppercase select-none font-normal"
                                     style={{ fontFamily: 'Gugi, sans-serif' }}
                                 >
-                                    codeer
+                                    CODEER
                                 </h1>
                                 {/* Optional: Add a subtle tagline - responsive */}
                                 <p className="text-gray-500 text-xs md:text-sm mt-3 md:mt-6 tracking-widest uppercase font-light">

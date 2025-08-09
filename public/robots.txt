@@ -1,0 +1,32 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://codeer.org/sitemap.xml
+
+# Allow important pages for SEO
+Allow: /
+Allow: /login
+Allow: /dashboard
+Allow: /explore
+Allow: /ide
+
+# Disallow admin and API routes
+Disallow: /admin/
+Disallow: /api/
+
+# Allow search engines to index all content
+Allow: /public/
+
+# Crawl-delay (optional, helps with server load)
+Crawl-delay: 1
+
+# Specific directives for major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /

@@ -1,0 +1,39 @@
+{
+    "name": "Codeer - Free Online Compiler & Code Editor",
+    "short_name": "Codeer",
+    "description": "Free online compiler and code editor supporting 50+ programming languages. Write, run, test and debug code instantly in your browser. Perfect for coding practice, algorithms, and programming education.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/odeer3.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/odeer3.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable any"
+        }
+    ],
+    "categories": [
+        "developer-tools",
+        "productivity",
+        "education"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "keywords": [
+        "online compiler",
+        "code editor",
+        "programming",
+        "coding",
+        "IDE",
+        "free compiler"
+    ]
+}

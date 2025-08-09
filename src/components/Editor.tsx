@@ -20,6 +20,74 @@ interface EditorProps {
 
 export function Editor({ value, onChange, language }: EditorProps) {
     const getMonacoLanguage = (lang: string): string => {
+        console.log('Editor received language:', lang); // Debug log
+        
+        // First check if it's a numeric ID (Judge0 API format)
+        const numericId = parseInt(lang, 10);
+        if (!isNaN(numericId)) {
+            const idToLanguageMap: { [key: number]: string } = {
+                // JavaScript & TypeScript
+                63: "javascript",  // JavaScript (Node.js 12.14.0)
+                74: "typescript",  // TypeScript (3.7.4)
+
+                // Python
+                71: "python",      // Python (3.8.1)
+                70: "python",      // Python (2.7.17)
+
+                // Java & JVM
+                62: "java",        // Java (OpenJDK 13.0.1)
+                78: "kotlin",      // Kotlin (1.3.70)
+                81: "scala",       // Scala (2.13.2)
+
+                // C/C++
+                50: "c",           // C (GCC 9.2.0)
+                54: "cpp",         // C++ (GCC 9.2.0)
+                75: "c",           // C (Clang 7.0.1)
+                76: "cpp",         // C++ (Clang 7.0.1)
+                48: "c",           // C (GCC 7.4.0)
+                49: "c",           // C (GCC 8.3.0)
+                52: "cpp",         // C++ (GCC 7.4.0)
+                53: "cpp",         // C++ (GCC 8.3.0)
+
+                // .NET
+                51: "csharp",      // C# (Mono 6.6.0.161)
+                87: "fsharp",      // F# (.NET Core SDK 3.1.202)
+                84: "vb",          // Visual Basic.Net
+
+                // Other Languages
+                60: "go",          // Go (1.13.5)
+                73: "rust",        // Rust (1.40.0)
+                68: "php",         // PHP (7.4.1)
+                72: "ruby",        // Ruby (2.7.0)
+                46: "shell",       // Bash (5.0.0)
+                82: "sql",         // SQL (SQLite 3.27.2)
+                80: "r",           // R (4.0.0)
+                83: "swift",       // Swift (5.2.3)
+                61: "haskell",     // Haskell (GHC 8.8.1)
+                85: "perl",        // Perl (5.28.1)
+                64: "lua",         // Lua (5.3.5)
+                67: "pascal",      // Pascal (FPC 3.0.4)
+                59: "fortran",     // Fortran (GFortran 9.2.0)
+                45: "assembly",    // Assembly (NASM 2.14.02) - Use assembly instead of asm
+                86: "clojure",     // Clojure (1.10.1)
+                55: "scheme",      // Common Lisp (SBCL 2.0.0) - Use scheme for better support
+                65: "ocaml",       // OCaml (4.09.0)
+                56: "d",           // D (DMD 2.089.1)
+                57: "elixir",      // Elixir (1.9.4)
+                58: "erlang",      // Erlang (OTP 22.2)
+                66: "matlab",      // Octave (5.1.0)
+                88: "groovy",      // Groovy (3.0.3)
+                77: "plaintext",   // COBOL (GnuCOBOL 2.2) - Monaco doesn't support COBOL, use plaintext
+                43: "plaintext",   // Plain Text
+                47: "vb",          // Basic (FBC 1.07.1) - Use VB syntax
+            };
+
+            const mappedLanguage = idToLanguageMap[numericId] || "plaintext";
+            console.log(`Mapped language ID ${numericId} to:`, mappedLanguage); // Debug log
+            return mappedLanguage;
+        }
+
+        // Fallback to old string-based mapping for backward compatibility
         const languageMap: { [key: string]: string } = {
             javascript: "javascript",
             python: "python",
