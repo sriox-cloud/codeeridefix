@@ -1,45 +1,11 @@
-# Robots.txt for Codeer - Free Online Compiler
-# https://codeer.org
-
+# *
 User-agent: *
 Allow: /
-
-# Important pages for indexing and AdSense
-Allow: /ide
-Allow: /login
-Allow: /privacy
-Allow: /terms
-Allow: /explore
-Allow: /dashboard
-
-# Allow public assets
-Allow: /public/
-
-# Disallow admin and API routes
 Disallow: /admin/
 Disallow: /api/
 
+# Host
+Host: https://codeer.org
+
 # Sitemaps
 Sitemap: https://codeer.org/sitemap.xml
-
-# Allow Google AdSense crawlers specifically
-User-agent: Googlebot
-Allow: /
-
-User-agent: AdsBot-Google
-Allow: /
-
-User-agent: Googlebot-Mobile
-Allow: /
-
-User-agent: Googlebot-Image
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Slurp
-Allow: /
-
-# Crawl delay for better server performance
-Crawl-delay: 1
