@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Editor } from "@/components/Editor";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import {
@@ -43,9 +41,10 @@ interface AiMessage {
 
 export default function CodeEditor({ session }: CodeEditorProps) {
     // File Management State
-    const [openFiles, setOpenFiles] = useState<FileTab[]>([
-        { name: 'main.py', content: '', language: 'python' }
-    ]);
+    const [code, setCode] = useState('');
+    const [language, setLanguage] = useState('71'); // Python by default
+    const [fileName, setFileName] = useState('main.py');
+    const [output, setOutput] = useState('');
     const [activeFileIndex, setActiveFileIndex] = useState(0);
 
     // Code Editor State

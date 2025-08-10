@@ -2,38 +2,28 @@
 
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import SimpleCodeEditor from "@/components/SimpleCodeEditor";ient";
+
+import { useSession, signOut } from "next-auth/react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import CodeEditor from "@/components/CodeEditor";
+import { FileManager } from "@/components/FileManager";
 
 export default function IDEPage() {
     const { data: session, status } = useSession();
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
-    const [loadingTimeout, setLoadingTimeout] = useState(false);
 
     useEffect(() => {
-        // Set a maximum loading time of 5 seconds
-        const timeoutId = setTimeout(() => {
-            setLoadingTimeout(true);
-            setIsLoading(false);
-        }, 5000);
-
+        if (status === "unauthenticated") {
+            router.push("/login");
+        }
         if (status !== "loading") {
             setIsLoading(false);
-            clearTimeout(timeoutId);
         }
-
-        return () => clearTimeout(timeoutId);
-    }, [status]);
-
-    // Force a session revalidation if loading times out
-    useEffect(() => {
-        if (loadingTimeout) {
-            const revalidateTimer = setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-
-            return () => clearTimeout(revalidateTimer);
-        }
-    }, [loadingTimeout]);
+    }, [status, router]);
 
     if (isLoading) {
         return (
@@ -47,8 +37,52 @@ export default function IDEPage() {
     }
 
     return (
-        <div className="w-full h-screen bg-black">
-            <CodeEditor session={session} />
+        <div className="w-full min-h-screen bg-black flex flex-col">
+            {/* Header with user info and sign out */}
+            <div className="bg-gray-900 p-4 flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    {session?.user?.image && (
+                        <img
+                            src={session.user.image}
+                            alt={session.user.name || "User"}
+                            className="w-8 h-8 rounded-full"
+                        />
+                    )}
+                    <span className="text-white">{session?.user?.name}</span>
+                </div>
+                <button
+                    onClick={handleSignOut}
+                    className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                >
+                    Sign Out
+                </button>
+            </div>
+
+            {/* Main content */}
+            <div className="flex-1 flex flex-col">
+                <div className="container mx-auto p-4 flex-1">
+                    {/* File manager */}
+                    <FileManager
+                        currentContent={code}
+                        currentLanguage={language}
+                        onLoadFile={(content, lang) => {
+                            setCode(content);
+                            setLanguage(lang);
+                        }}
+                    />
+
+                    {/* Code editor */}
+                    <div className="mt-4 flex-1">
+                        <CodeEditor
+                            session={session}
+                            onCodeChange={setCode}
+                            onLanguageChange={setLanguage}
+                            initialCode={code}
+                            initialLanguage={language}
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
