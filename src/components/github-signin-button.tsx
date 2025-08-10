@@ -3,20 +3,33 @@
 import { signIn, useSession } from "next-auth/react";
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function GitHubSignInButton() {
     const { data: session, status } = useSession();
     const router = useRouter();
+    const [isRedirecting, setIsRedirecting] = useState(false);
 
     useEffect(() => {
-        if (status === "authenticated") {
-            router.push("/ide");
+        if (status === "authenticated" && !isRedirecting) {
+            setIsRedirecting(true);
+            // Add a small delay to ensure the session is properly established
+            setTimeout(() => {
+                router.push("/ide");
+            }, 500);
         }
-    }, [status, router]);
+    }, [status, router, isRedirecting]);
 
-    const handleSignIn = () => {
-        signIn("github", { callbackUrl: "/ide" });
+    const handleSignIn = async () => {
+        try {
+            await signIn("github", { 
+                callbackUrl: "/ide",
+                redirect: true,
+            });
+        } catch (error) {
+            console.error("GitHub sign-in error:", error);
+            // You could add toast notification here for error feedback
+        }
     };
 
     if (status === "loading") {
