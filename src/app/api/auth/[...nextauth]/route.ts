@@ -9,37 +9,58 @@ export const authOptions: AuthOptions = {
                 clientSecret: process.env.GITHUB_CLIENT_SECRET,
                 authorization: {
                     params: {
-                        scope: "read:user user:email repo"
+                        scope: "read:user user:email repo",
                     }
                 }
             })
         ] : [])
     ],
+    secret: process.env.NEXTAUTH_SECRET,
+    session: {
+        strategy: "jwt",
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+    },
+    cookies: {
+        sessionToken: {
+            name: `__Secure-next-auth.session-token`,
+            options: {
+                httpOnly: true,
+                sameSite: 'lax',
+                path: '/',
+                secure: true,
+                maxAge: 30 * 24 * 60 * 60 // 30 days
+            }
+        }
+    },
     pages: {
         signIn: '/login',
     },
     callbacks: {
         async signIn({ user, account, profile }) {
-            // Always allow sign in if GitHub is configured
             return true;
         },
-        async jwt({ token, account, profile }) {
+        async jwt({ token, account, profile, user }) {
             if (account) {
-                token.accessToken = account.access_token
+                token.accessToken = account.access_token;
+                token.provider = account.provider;
+                token.id = user?.id;
             }
-            return token
+            return token;
         },
         async session({ session, token }) {
-            // Send access token to the client session
-            if (token.accessToken) {
+            if (token) {
                 (session as any).accessToken = token.accessToken;
+                (session as any).provider = token.provider;
+                if (session.user) {
+                    (session.user as any).id = token.id;
+                }
             }
-            return session
+            return session;
         },
         async redirect({ url, baseUrl }) {
-            // Redirect to IDE page after successful login
-            if (url.startsWith(baseUrl)) return url
-            return `${baseUrl}/ide`
+            if (url.startsWith(baseUrl)) return url;
+            else if (url.startsWith('/')) return `${baseUrl}${url}`;
+            return `${baseUrl}/ide`;
         },
     },
 }

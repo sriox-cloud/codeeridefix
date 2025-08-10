@@ -9,8 +9,11 @@ export function AuthProvider({
 }) {
     return (
         <SessionProvider 
-            refetchInterval={5} // Check session every 5 seconds
-            refetchOnWindowFocus={true} // Refresh when window regains focus
+            // Longer refetch interval for better performance
+            refetchInterval={30} // Check session every 30 seconds
+            refetchOnWindowFocus={true}
+            // Keep the session alive as long as the window is open
+            refetchWhenOffline={false}
         >
             {children}
         </SessionProvider>
