@@ -442,15 +442,6 @@ export default function CodeEditor({ session }: CodeEditorProps) {
                     {session ? (
                         <div className="flex items-center space-x-3">
                             <span className="text-white text-sm">Welcome, {session.user?.name || 'User'}</span>
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => signOut()}
-                                className="text-gray-400 hover:text-white hover:bg-[#3e3e42] h-7 px-3 text-xs"
-                            >
-                                <LogOut className="w-3 h-3 mr-1" />
-                                Sign Out
-                            </Button>
                         </div>
                     ) : (
                         <Link href="/login">
